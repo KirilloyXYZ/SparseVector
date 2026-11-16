@@ -3,8 +3,8 @@
 
 #include <cstddef>
 #include <stdexcept>
+#include <type_traits>
 #include <utility>
-
 
 template<typename T>
 class DynamicArray
@@ -29,8 +29,11 @@ public:
     const T& Get(std::size_t index) const;
     T& Get(std::size_t index);
     std::size_t GetSize() const;
+    std::size_t GetCapacity() const;
     void Reserve(std::size_t newCapacity);
     void PushBack(const T& value);
+    void InsertAt(std::size_t index, const T& value);
+    void RemoveAt(std::size_t index);
     void Clear() noexcept;
 };
 
@@ -186,6 +189,61 @@ void DynamicArray<T>::PushBack(const T& value)
         this->items[this->size] = value;
         ++this->size;
     }
+}
+
+template<typename T>
+void DynamicArray<T>::InsertAt(std::size_t index, const T& value)
+{
+    if (index > this->size) { throw std::out_of_range("DynamicArray::InsertAt: index out of range"); }
+
+    // Копия нужна, если value ссылается на элемент самого массива.
+    T copy(value);
+    if constexpr (std::is_nothrow_copy_assignable<T>::value)
+    {
+        this->PushBack(copy);
+        for (std::size_t i = this->size - 1; i > index; --i) { this->items[i] = this->items[i - 1]; }
+        this->items[index] = copy;
+    }
+    else
+    {
+        // При бросающем присваивании собираем результат отдельно, сохраняя исходный массив.
+        DynamicArray<T> result;
+        result.Reserve(this->capacity);
+        for (std::size_t i = 0; i < index; ++i) { result.PushBack(this->items[i]); }
+        result.PushBack(copy);
+        for (std::size_t i = index; i < this->size; ++i) { result.PushBack(this->items[i]); }
+        this->Swap(result);
+    }
+}
+
+template<typename T>
+void DynamicArray<T>::RemoveAt(std::size_t index)
+{
+    if (index >= this->size) { throw std::out_of_range("DynamicArray::RemoveAt: index out of range"); }
+
+    if constexpr (std::is_nothrow_copy_assignable<T>::value)
+    {
+        T empty{};
+        for (std::size_t i = index; i + 1 < this->size; ++i) { this->items[i] = this->items[i + 1]; }
+        this->items[this->size - 1] = empty;
+        --this->size;
+    }
+    else
+    {
+        DynamicArray<T> result;
+        result.Reserve(this->capacity);
+        for (std::size_t i = 0; i < this->size; ++i)
+        {
+            if (i != index) { result.PushBack(this->items[i]); }
+        }
+        this->Swap(result);
+    }
+}
+
+template<typename T>
+std::size_t DynamicArray<T>::GetCapacity() const
+{
+    return this->capacity;
 }
 
 template<typename T>

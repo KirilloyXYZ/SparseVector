@@ -12,30 +12,7 @@
 
 #include "Tree.hpp"
 #include "Stack.hpp"
-
-template<typename T, typename = void>
-struct IsLessComparable : std::false_type { };
-
-template<typename T>
-struct IsLessComparable<T, std::void_t<decltype(std::declval<const T&>() < std::declval<const T&>())>>
-    : std::is_convertible<decltype(std::declval<const T&>() < std::declval<const T&>()), bool> { };
-
-template<typename T>
-bool CompareValues(const T& left, const T& right)
-{
-    static_assert(IsLessComparable<T>::value,
-                  "CompareValues: key must support operator< with a result convertible to bool");
-    if constexpr (IsLessComparable<T>::value)
-    {
-        return left < right;
-    }
-}
-
-template<typename T>
-bool EqualValues(const T& left, const T& right)
-{
-    return left == right;
-}
+#include "Comparison.hpp"
 
 template<typename T, typename K>
 class BinarySearchTree : public Tree<T, K>
@@ -104,12 +81,18 @@ private:
 
 public:
     explicit BinarySearchTree(bool (*compare)(const K&, const K&) = CompareValues<K>);
+    BinarySearchTree(const BinarySearchTree<T, K>& other);
+    BinarySearchTree(BinarySearchTree<T, K>&& other) noexcept;
+    BinarySearchTree<T, K>& operator=(const BinarySearchTree<T, K>& other);
+    BinarySearchTree<T, K>& operator=(BinarySearchTree<T, K>&& other) noexcept;
     ~BinarySearchTree() override = default;
 
     bool Insert(const K& key, const T& value) override;
+    bool Update(const K& key, const T& value);
     bool Remove(const K& key) override;
     bool Contains(const K& key) const override;
     const T& Get(const K& key) const override;
+    const T* Find(const K& key) const;
     const T& operator[](const K& key) const;
     BinarySearchTree<T, K>& operator+=(const std::pair<K, T>& item);
 
@@ -140,6 +123,50 @@ BinarySearchTree<T, K>::BinarySearchTree(bool (*compare)(const K&, const K&))
     {
         throw std::invalid_argument("BinarySearchTree: null comparator");
     }
+}
+
+template<typename T, typename K>
+BinarySearchTree<T, K>::BinarySearchTree(const BinarySearchTree<T, K>& other)
+    : count(0), compare(other.compare), version(0)
+{
+    this->root = this->CloneNode(other.root.get(), this->count);
+}
+
+template<typename T, typename K>
+BinarySearchTree<T, K>::BinarySearchTree(BinarySearchTree<T, K>&& other) noexcept
+    : root(std::move(other.root)), count(other.count), compare(other.compare), version(0)
+{
+    other.count = 0;
+    ++other.version;
+}
+
+template<typename T, typename K>
+BinarySearchTree<T, K>& BinarySearchTree<T, K>::operator=(const BinarySearchTree<T, K>& other)
+{
+    if (this != &other)
+    {
+        BinarySearchTree<T, K> copy(other);
+        this->root = std::move(copy.root);
+        this->count = copy.count;
+        this->compare = copy.compare;
+        ++this->version;
+    }
+    return *this;
+}
+
+template<typename T, typename K>
+BinarySearchTree<T, K>& BinarySearchTree<T, K>::operator=(BinarySearchTree<T, K>&& other) noexcept
+{
+    if (this != &other)
+    {
+        this->root = std::move(other.root);
+        this->count = other.count;
+        this->compare = other.compare;
+        other.count = 0;
+        ++this->version;
+        ++other.version;
+    }
+    return *this;
 }
 
 template<typename T, typename K>
@@ -315,6 +342,34 @@ bool BinarySearchTree<T, K>::RemoveNode(std::unique_ptr<Node>& node, const K& ke
 }
 
 template<typename T, typename K>
+bool BinarySearchTree<T, K>::Update(const K& key, const T& value)
+{
+    std::unique_ptr<Node>* link = &this->root;
+    while (*link != nullptr)
+    {
+        Node* node = link->get();
+        if (this->compare(key, node->key)) { link = &node->left; }
+        else if (this->compare(node->key, key)) { link = &node->right; }
+        else
+        {
+            if constexpr (std::is_nothrow_copy_assignable<T>::value) { node->data = value; }
+            else
+            {
+                // Новый узел строится до изменения дерева: копирование T может бросить исключение.
+                auto replacement = std::make_unique<Node>(node->key, value);
+                replacement->height = node->height;
+                replacement->left = std::move(node->left);
+                replacement->right = std::move(node->right);
+                *link = std::move(replacement);
+            }
+            ++this->version;
+            return true;
+        }
+    }
+    return false;
+}
+
+template<typename T, typename K>
 bool BinarySearchTree<T, K>::Remove(const K& key)
 {
     bool removed = this->RemoveNode(this->root, key);
@@ -342,6 +397,13 @@ const T& BinarySearchTree<T, K>::Get(const K& key) const
     }
 
     return node->data;
+}
+
+template<typename T, typename K>
+const T* BinarySearchTree<T, K>::Find(const K& key) const
+{
+    const Node* node = this->FindNode(key);
+    return node == nullptr ? nullptr : &node->data;
 }
 
 template<typename T, typename K>

@@ -1,0 +1,667 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1470" height="1120" viewBox="0 0 1470 1120" role="img" aria-label="Сравнение хранилищ разреженного вектора">
+<style>text{font-family:Arial,sans-serif;fill:#243244} .tick{font-size:11px} .caption{font-size:14px;font-weight:bold}</style>
+<rect width="1470" height="1120" fill="white"/>
+<text x="40" y="32" font-size="22">SparseVector — AVL и отсортированный массив</text>
+<text x="40" y="55" font-size="13">Медиана повторов; время всего пакета в мс; обе оси логарифмические; N = 10 000 000</text>
+<line x1="40" y1="80" x2="75" y2="80" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<text x="84" y="84" font-size="12">AVL, случайный</text>
+<line x1="300" y1="80" x2="335" y2="80" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<text x="344" y="84" font-size="12">AVL, возрастающий</text>
+<line x1="560" y1="80" x2="595" y2="80" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<text x="604" y="84" font-size="12">AVL, убывающий</text>
+<line x1="40" y1="102" x2="75" y2="102" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<text x="84" y="106" font-size="12">Массив, случайный</text>
+<line x1="300" y1="102" x2="335" y2="102" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<text x="344" y="106" font-size="12">Массив, возрастающий</text>
+<line x1="560" y1="102" x2="595" y2="102" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<text x="604" y="106" font-size="12">Массив, убывающий</text>
+<text x="78" y="140" class="caption">Построение через Set</text>
+<line x1="78.00" y1="158" x2="78.00" y2="373" stroke="#e4e9ef"/>
+<text x="78.00" y="391" text-anchor="middle" class="tick">100</text>
+<line x1="199.67" y1="158" x2="199.67" y2="373" stroke="#e4e9ef"/>
+<text x="199.67" y="391" text-anchor="middle" class="tick">1000</text>
+<line x1="321.33" y1="158" x2="321.33" y2="373" stroke="#e4e9ef"/>
+<text x="321.33" y="391" text-anchor="middle" class="tick">10000</text>
+<line x1="443.00" y1="158" x2="443.00" y2="373" stroke="#e4e9ef"/>
+<text x="443.00" y="391" text-anchor="middle" class="tick">100000</text>
+<line x1="78" y1="373.00" x2="443" y2="373.00" stroke="#e4e9ef"/>
+<text x="69" y="377.00" text-anchor="end" class="tick">0.001</text>
+<line x1="78" y1="342.29" x2="443" y2="342.29" stroke="#e4e9ef"/>
+<text x="69" y="346.29" text-anchor="end" class="tick">0.01</text>
+<line x1="78" y1="311.57" x2="443" y2="311.57" stroke="#e4e9ef"/>
+<text x="69" y="315.57" text-anchor="end" class="tick">0.1</text>
+<line x1="78" y1="280.86" x2="443" y2="280.86" stroke="#e4e9ef"/>
+<text x="69" y="284.86" text-anchor="end" class="tick">1</text>
+<line x1="78" y1="250.14" x2="443" y2="250.14" stroke="#e4e9ef"/>
+<text x="69" y="254.14" text-anchor="end" class="tick">10</text>
+<line x1="78" y1="219.43" x2="443" y2="219.43" stroke="#e4e9ef"/>
+<text x="69" y="223.43" text-anchor="end" class="tick">100</text>
+<line x1="78" y1="188.71" x2="443" y2="188.71" stroke="#e4e9ef"/>
+<text x="69" y="192.71" text-anchor="end" class="tick">1000</text>
+<line x1="78" y1="158.00" x2="443" y2="158.00" stroke="#e4e9ef"/>
+<text x="69" y="162.00" text-anchor="end" class="tick">10000</text>
+<rect x="78" y="158" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="78.00,345.90 136.05,329.08 199.67,311.20 257.72,294.54 321.33,276.16 379.38,259.93 443.00,241.48" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="78.00" cy="345.90" r="3" fill="#1768ac"><title>tree, random: 100, 0.007625 ms</title></circle>
+<circle cx="136.05" cy="329.08" r="3" fill="#1768ac"><title>tree, random: 300, 0.026917 ms</title></circle>
+<circle cx="199.67" cy="311.20" r="3" fill="#1768ac"><title>tree, random: 1000, 0.102834 ms</title></circle>
+<circle cx="257.72" cy="294.54" r="3" fill="#1768ac"><title>tree, random: 3000, 0.358417 ms</title></circle>
+<circle cx="321.33" cy="276.16" r="3" fill="#1768ac"><title>tree, random: 10000, 1.42213 ms</title></circle>
+<circle cx="379.38" cy="259.93" r="3" fill="#1768ac"><title>tree, random: 30000, 4.80208 ms</title></circle>
+<circle cx="443.00" cy="241.48" r="3" fill="#1768ac"><title>tree, random: 100000, 19.1476 ms</title></circle>
+<polyline points="78.00,352.45 136.05,336.37 199.67,320.00 257.72,304.05 321.33,285.21 379.38,270.29 443.00,253.52" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="78.00" cy="352.45" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.004667 ms</title></circle>
+<circle cx="136.05" cy="336.37" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.015583 ms</title></circle>
+<circle cx="199.67" cy="320.00" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.053166 ms</title></circle>
+<circle cx="257.72" cy="304.05" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.175792 ms</title></circle>
+<circle cx="321.33" cy="285.21" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.72175 ms</title></circle>
+<circle cx="379.38" cy="270.29" r="3" fill="#1768ac"><title>tree, ascending: 30000, 2.20879 ms</title></circle>
+<circle cx="443.00" cy="253.52" r="3" fill="#1768ac"><title>tree, ascending: 100000, 7.7625 ms</title></circle>
+<polyline points="78.00,353.83 136.05,338.83 199.67,321.02 257.72,304.65 321.33,287.69 379.38,272.25 443.00,254.95" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="78.00" cy="353.83" r="3" fill="#1768ac"><title>tree, descending: 100, 0.004209 ms</title></circle>
+<circle cx="136.05" cy="338.83" r="3" fill="#1768ac"><title>tree, descending: 300, 0.012958 ms</title></circle>
+<circle cx="199.67" cy="321.02" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.04925 ms</title></circle>
+<circle cx="257.72" cy="304.65" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.168 ms</title></circle>
+<circle cx="321.33" cy="287.69" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.599208 ms</title></circle>
+<circle cx="379.38" cy="272.25" r="3" fill="#1768ac"><title>tree, descending: 30000, 1.90663 ms</title></circle>
+<circle cx="443.00" cy="254.95" r="3" fill="#1768ac"><title>tree, descending: 100000, 6.97513 ms</title></circle>
+<polyline points="78.00,349.38 136.05,333.84 199.67,309.82 257.72,284.74 321.33,255.09 379.38,225.30 443.00,192.92" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="78.00" cy="349.38" r="3" fill="#c65b16"><title>array, random: 100, 0.005875 ms</title></circle>
+<circle cx="136.05" cy="333.84" r="3" fill="#c65b16"><title>array, random: 300, 0.018833 ms</title></circle>
+<circle cx="199.67" cy="309.82" r="3" fill="#c65b16"><title>array, random: 1000, 0.114042 ms</title></circle>
+<circle cx="257.72" cy="284.74" r="3" fill="#c65b16"><title>array, random: 3000, 0.747375 ms</title></circle>
+<circle cx="321.33" cy="255.09" r="3" fill="#c65b16"><title>array, random: 10000, 6.8995 ms</title></circle>
+<circle cx="379.38" cy="225.30" r="3" fill="#c65b16"><title>array, random: 30000, 64.3701 ms</title></circle>
+<circle cx="443.00" cy="192.92" r="3" fill="#c65b16"><title>array, random: 100000, 729.499 ms</title></circle>
+<polyline points="78.00,362.43 136.05,344.39 199.67,326.55 257.72,308.83 321.33,290.22 379.38,274.54 443.00,256.08" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="78.00" cy="362.43" r="3" fill="#c65b16"><title>array, ascending: 100, 0.002209 ms</title></circle>
+<circle cx="136.05" cy="344.39" r="3" fill="#c65b16"><title>array, ascending: 300, 0.008542 ms</title></circle>
+<circle cx="199.67" cy="326.55" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.032542 ms</title></circle>
+<circle cx="257.72" cy="308.83" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.122791 ms</title></circle>
+<circle cx="321.33" cy="290.22" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.495666 ms</title></circle>
+<circle cx="379.38" cy="274.54" r="3" fill="#c65b16"><title>array, ascending: 30000, 1.6055 ms</title></circle>
+<circle cx="443.00" cy="256.08" r="3" fill="#c65b16"><title>array, ascending: 100000, 6.40733 ms</title></circle>
+<polyline points="78.00,352.45 136.05,331.49 199.67,304.39 257.72,277.30 321.33,246.47 379.38,216.08 443.00,183.53" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="78.00" cy="352.45" r="3" fill="#c65b16"><title>array, descending: 100, 0.004667 ms</title></circle>
+<circle cx="136.05" cy="331.49" r="3" fill="#c65b16"><title>array, descending: 300, 0.022458 ms</title></circle>
+<circle cx="199.67" cy="304.39" r="3" fill="#c65b16"><title>array, descending: 1000, 0.171375 ms</title></circle>
+<circle cx="257.72" cy="277.30" r="3" fill="#c65b16"><title>array, descending: 3000, 1.30567 ms</title></circle>
+<circle cx="321.33" cy="246.47" r="3" fill="#c65b16"><title>array, descending: 10000, 13.1657 ms</title></circle>
+<circle cx="379.38" cy="216.08" r="3" fill="#c65b16"><title>array, descending: 30000, 128.491 ms</title></circle>
+<circle cx="443.00" cy="183.53" r="3" fill="#c65b16"><title>array, descending: 100000, 1474.49 ms</title></circle>
+<text x="260.5" y="416" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="66" y="140" text-anchor="end" class="tick">мс</text>
+<text x="563" y="140" class="caption">Массовое построение</text>
+<line x1="563.00" y1="158" x2="563.00" y2="373" stroke="#e4e9ef"/>
+<text x="563.00" y="391" text-anchor="middle" class="tick">100</text>
+<line x1="684.67" y1="158" x2="684.67" y2="373" stroke="#e4e9ef"/>
+<text x="684.67" y="391" text-anchor="middle" class="tick">1000</text>
+<line x1="806.33" y1="158" x2="806.33" y2="373" stroke="#e4e9ef"/>
+<text x="806.33" y="391" text-anchor="middle" class="tick">10000</text>
+<line x1="928.00" y1="158" x2="928.00" y2="373" stroke="#e4e9ef"/>
+<text x="928.00" y="391" text-anchor="middle" class="tick">100000</text>
+<line x1="563" y1="373.00" x2="928" y2="373.00" stroke="#e4e9ef"/>
+<text x="554" y="377.00" text-anchor="end" class="tick">0.001</text>
+<line x1="563" y1="330.00" x2="928" y2="330.00" stroke="#e4e9ef"/>
+<text x="554" y="334.00" text-anchor="end" class="tick">0.01</text>
+<line x1="563" y1="287.00" x2="928" y2="287.00" stroke="#e4e9ef"/>
+<text x="554" y="291.00" text-anchor="end" class="tick">0.1</text>
+<line x1="563" y1="244.00" x2="928" y2="244.00" stroke="#e4e9ef"/>
+<text x="554" y="248.00" text-anchor="end" class="tick">1</text>
+<line x1="563" y1="201.00" x2="928" y2="201.00" stroke="#e4e9ef"/>
+<text x="554" y="205.00" text-anchor="end" class="tick">10</text>
+<line x1="563" y1="158.00" x2="928" y2="158.00" stroke="#e4e9ef"/>
+<text x="554" y="162.00" text-anchor="end" class="tick">100</text>
+<rect x="563" y="158" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="563.00,335.58 621.05,315.71 684.67,292.30 742.72,269.42 806.33,243.84 864.38,222.98 928.00,198.70" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="563.00" cy="335.58" r="3" fill="#1768ac"><title>tree, random: 100, 0.007417 ms</title></circle>
+<circle cx="621.05" cy="315.71" r="3" fill="#1768ac"><title>tree, random: 300, 0.0215 ms</title></circle>
+<circle cx="684.67" cy="292.30" r="3" fill="#1768ac"><title>tree, random: 1000, 0.075291 ms</title></circle>
+<circle cx="742.72" cy="269.42" r="3" fill="#1768ac"><title>tree, random: 3000, 0.256291 ms</title></circle>
+<circle cx="806.33" cy="243.84" r="3" fill="#1768ac"><title>tree, random: 10000, 1.00846 ms</title></circle>
+<circle cx="864.38" cy="222.98" r="3" fill="#1768ac"><title>tree, random: 30000, 3.08233 ms</title></circle>
+<circle cx="928.00" cy="198.70" r="3" fill="#1768ac"><title>tree, random: 100000, 11.3096 ms</title></circle>
+<polyline points="563.00,344.57 621.05,321.52 684.67,300.02 742.72,277.73 806.33,252.27 864.38,231.12 928.00,207.27" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="563.00" cy="344.57" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.004583 ms</title></circle>
+<circle cx="621.05" cy="321.52" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.01575 ms</title></circle>
+<circle cx="684.67" cy="300.02" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.049792 ms</title></circle>
+<circle cx="742.72" cy="277.73" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.16425 ms</title></circle>
+<circle cx="806.33" cy="252.27" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.642209 ms</title></circle>
+<circle cx="864.38" cy="231.12" r="3" fill="#1768ac"><title>tree, ascending: 30000, 1.99346 ms</title></circle>
+<circle cx="928.00" cy="207.27" r="3" fill="#1768ac"><title>tree, ascending: 100000, 7.14938 ms</title></circle>
+<polyline points="563.00,341.74 621.05,319.95 684.67,296.81 742.72,274.29 806.33,250.11 864.38,227.92 928.00,203.92" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="563.00" cy="341.74" r="3" fill="#1768ac"><title>tree, descending: 100, 0.005333 ms</title></circle>
+<circle cx="621.05" cy="319.95" r="3" fill="#1768ac"><title>tree, descending: 300, 0.017125 ms</title></circle>
+<circle cx="684.67" cy="296.81" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.059125 ms</title></circle>
+<circle cx="742.72" cy="274.29" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.197459 ms</title></circle>
+<circle cx="806.33" cy="250.11" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.721042 ms</title></circle>
+<circle cx="864.38" cy="227.92" r="3" fill="#1768ac"><title>tree, descending: 30000, 2.36504 ms</title></circle>
+<circle cx="928.00" cy="203.92" r="3" fill="#1768ac"><title>tree, descending: 100000, 8.55471 ms</title></circle>
+<polyline points="563.00,344.24 621.05,327.80 684.67,305.84 742.72,282.94 806.33,257.60 864.38,235.88 928.00,211.54" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="563.00" cy="344.24" r="3" fill="#c65b16"><title>array, random: 100, 0.004666 ms</title></circle>
+<circle cx="621.05" cy="327.80" r="3" fill="#c65b16"><title>array, random: 300, 0.01125 ms</title></circle>
+<circle cx="684.67" cy="305.84" r="3" fill="#c65b16"><title>array, random: 1000, 0.036458 ms</title></circle>
+<circle cx="742.72" cy="282.94" r="3" fill="#c65b16"><title>array, random: 3000, 0.124292 ms</title></circle>
+<circle cx="806.33" cy="257.60" r="3" fill="#c65b16"><title>array, random: 10000, 0.482875 ms</title></circle>
+<circle cx="864.38" cy="235.88" r="3" fill="#c65b16"><title>array, random: 30000, 1.54479 ms</title></circle>
+<circle cx="928.00" cy="211.54" r="3" fill="#c65b16"><title>array, random: 100000, 5.68792 ms</title></circle>
+<polyline points="563.00,367.05 621.05,345.80 684.67,328.15 742.72,306.36 806.33,282.66 864.38,263.48 928.00,240.69" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="563.00" cy="367.05" r="3" fill="#c65b16"><title>array, ascending: 100, 0.001375 ms</title></circle>
+<circle cx="621.05" cy="345.80" r="3" fill="#c65b16"><title>array, ascending: 300, 0.004291 ms</title></circle>
+<circle cx="684.67" cy="328.15" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.011042 ms</title></circle>
+<circle cx="742.72" cy="306.36" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.035458 ms</title></circle>
+<circle cx="806.33" cy="282.66" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.126166 ms</title></circle>
+<circle cx="864.38" cy="263.48" r="3" fill="#c65b16"><title>array, ascending: 30000, 0.352333 ms</title></circle>
+<circle cx="928.00" cy="240.69" r="3" fill="#c65b16"><title>array, ascending: 100000, 1.19383 ms</title></circle>
+<polyline points="563.00,359.67 621.05,339.54 684.67,316.14 742.72,294.39 806.33,271.72 864.38,249.42 928.00,225.99" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="563.00" cy="359.67" r="3" fill="#c65b16"><title>array, descending: 100, 0.002042 ms</title></circle>
+<circle cx="621.05" cy="339.54" r="3" fill="#c65b16"><title>array, descending: 300, 0.006 ms</title></circle>
+<circle cx="684.67" cy="316.14" r="3" fill="#c65b16"><title>array, descending: 1000, 0.021 ms</title></circle>
+<circle cx="742.72" cy="294.39" r="3" fill="#c65b16"><title>array, descending: 3000, 0.067333 ms</title></circle>
+<circle cx="806.33" cy="271.72" r="3" fill="#c65b16"><title>array, descending: 10000, 0.226667 ms</title></circle>
+<circle cx="864.38" cy="249.42" r="3" fill="#c65b16"><title>array, descending: 30000, 0.748042 ms</title></circle>
+<circle cx="928.00" cy="225.99" r="3" fill="#c65b16"><title>array, descending: 100000, 2.62279 ms</title></circle>
+<text x="745.5" y="416" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="551" y="140" text-anchor="end" class="tick">мс</text>
+<text x="1048" y="140" class="caption">Чтение ненулевых значений</text>
+<line x1="1048.00" y1="158" x2="1048.00" y2="373" stroke="#e4e9ef"/>
+<text x="1048.00" y="391" text-anchor="middle" class="tick">100</text>
+<line x1="1169.67" y1="158" x2="1169.67" y2="373" stroke="#e4e9ef"/>
+<text x="1169.67" y="391" text-anchor="middle" class="tick">1000</text>
+<line x1="1291.33" y1="158" x2="1291.33" y2="373" stroke="#e4e9ef"/>
+<text x="1291.33" y="391" text-anchor="middle" class="tick">10000</text>
+<line x1="1413.00" y1="158" x2="1413.00" y2="373" stroke="#e4e9ef"/>
+<text x="1413.00" y="391" text-anchor="middle" class="tick">100000</text>
+<line x1="1048" y1="373.00" x2="1413" y2="373.00" stroke="#e4e9ef"/>
+<text x="1039" y="377.00" text-anchor="end" class="tick">0.001</text>
+<line x1="1048" y1="319.25" x2="1413" y2="319.25" stroke="#e4e9ef"/>
+<text x="1039" y="323.25" text-anchor="end" class="tick">0.01</text>
+<line x1="1048" y1="265.50" x2="1413" y2="265.50" stroke="#e4e9ef"/>
+<text x="1039" y="269.50" text-anchor="end" class="tick">0.1</text>
+<line x1="1048" y1="211.75" x2="1413" y2="211.75" stroke="#e4e9ef"/>
+<text x="1039" y="215.75" text-anchor="end" class="tick">1</text>
+<line x1="1048" y1="158.00" x2="1413" y2="158.00" stroke="#e4e9ef"/>
+<text x="1039" y="162.00" text-anchor="end" class="tick">10</text>
+<rect x="1048" y="158" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="1048.00,352.01 1106.05,321.18 1169.67,290.46 1227.72,260.31 1291.33,226.96 1349.38,197.06 1413.00,163.17" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1048.00" cy="352.01" r="3" fill="#1768ac"><title>tree, random: 100, 0.002458 ms</title></circle>
+<circle cx="1106.05" cy="321.18" r="3" fill="#1768ac"><title>tree, random: 300, 0.009208 ms</title></circle>
+<circle cx="1169.67" cy="290.46" r="3" fill="#1768ac"><title>tree, random: 1000, 0.034333 ms</title></circle>
+<circle cx="1227.72" cy="260.31" r="3" fill="#1768ac"><title>tree, random: 3000, 0.124875 ms</title></circle>
+<circle cx="1291.33" cy="226.96" r="3" fill="#1768ac"><title>tree, random: 10000, 0.521166 ms</title></circle>
+<circle cx="1349.38" cy="197.06" r="3" fill="#1768ac"><title>tree, random: 30000, 1.87617 ms</title></circle>
+<circle cx="1413.00" cy="163.17" r="3" fill="#1768ac"><title>tree, random: 100000, 8.01496 ms</title></circle>
+<polyline points="1048.00,365.57 1106.05,324.83 1169.67,296.32 1227.72,268.61 1291.33,240.49 1349.38,213.76 1413.00,183.84" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="1048.00" cy="365.57" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.001375 ms</title></circle>
+<circle cx="1106.05" cy="324.83" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.007875 ms</title></circle>
+<circle cx="1169.67" cy="296.32" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.026708 ms</title></circle>
+<circle cx="1227.72" cy="268.61" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.087542 ms</title></circle>
+<circle cx="1291.33" cy="240.49" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.291917 ms</title></circle>
+<circle cx="1349.38" cy="213.76" r="3" fill="#1768ac"><title>tree, ascending: 30000, 0.917625 ms</title></circle>
+<circle cx="1413.00" cy="183.84" r="3" fill="#1768ac"><title>tree, ascending: 100000, 3.30525 ms</title></circle>
+<polyline points="1048.00,367.79 1106.05,331.50 1169.67,296.54 1227.72,267.62 1291.33,242.17 1349.38,214.29 1413.00,183.70" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="1048.00" cy="367.79" r="3" fill="#1768ac"><title>tree, descending: 100, 0.00125 ms</title></circle>
+<circle cx="1106.05" cy="331.50" r="3" fill="#1768ac"><title>tree, descending: 300, 0.005917 ms</title></circle>
+<circle cx="1169.67" cy="296.54" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.026458 ms</title></circle>
+<circle cx="1227.72" cy="267.62" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.091333 ms</title></circle>
+<circle cx="1291.33" cy="242.17" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.271667 ms</title></circle>
+<circle cx="1349.38" cy="214.29" r="3" fill="#1768ac"><title>tree, descending: 30000, 0.896959 ms</title></circle>
+<circle cx="1413.00" cy="183.70" r="3" fill="#1768ac"><title>tree, descending: 100000, 3.32496 ms</title></circle>
+<polyline points="1048.00,363.54 1106.05,332.68 1169.67,308.16 1227.72,268.81 1291.33,236.96 1349.38,211.96 1413.00,174.89" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1048.00" cy="363.54" r="3" fill="#c65b16"><title>array, random: 100, 0.0015 ms</title></circle>
+<circle cx="1106.05" cy="332.68" r="3" fill="#c65b16"><title>array, random: 300, 0.005625 ms</title></circle>
+<circle cx="1169.67" cy="308.16" r="3" fill="#c65b16"><title>array, random: 1000, 0.016084 ms</title></circle>
+<circle cx="1227.72" cy="268.81" r="3" fill="#c65b16"><title>array, random: 3000, 0.086792 ms</title></circle>
+<circle cx="1291.33" cy="236.96" r="3" fill="#c65b16"><title>array, random: 10000, 0.339667 ms</title></circle>
+<circle cx="1349.38" cy="211.96" r="3" fill="#c65b16"><title>array, random: 30000, 0.991 ms</title></circle>
+<circle cx="1413.00" cy="174.89" r="3" fill="#c65b16"><title>array, random: 100000, 4.85088 ms</title></circle>
+<polyline points="1048.00,365.57 1106.05,332.68 1169.67,308.22 1227.72,269.52 1291.33,237.94 1349.38,214.79 1413.00,179.93" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="1048.00" cy="365.57" r="3" fill="#c65b16"><title>array, ascending: 100, 0.001375 ms</title></circle>
+<circle cx="1106.05" cy="332.68" r="3" fill="#c65b16"><title>array, ascending: 300, 0.005625 ms</title></circle>
+<circle cx="1169.67" cy="308.22" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.016042 ms</title></circle>
+<circle cx="1227.72" cy="269.52" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.084167 ms</title></circle>
+<circle cx="1291.33" cy="237.94" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.325709 ms</title></circle>
+<circle cx="1349.38" cy="214.79" r="3" fill="#c65b16"><title>array, ascending: 30000, 0.877792 ms</title></circle>
+<circle cx="1413.00" cy="179.93" r="3" fill="#c65b16"><title>array, ascending: 100000, 3.90758 ms</title></circle>
+<polyline points="1048.00,364.20 1106.05,332.85 1169.67,307.50 1227.72,269.69 1291.33,238.43 1349.38,214.55 1413.00,179.75" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="1048.00" cy="364.20" r="3" fill="#c65b16"><title>array, descending: 100, 0.001458 ms</title></circle>
+<circle cx="1106.05" cy="332.85" r="3" fill="#c65b16"><title>array, descending: 300, 0.005584 ms</title></circle>
+<circle cx="1169.67" cy="307.50" r="3" fill="#c65b16"><title>array, descending: 1000, 0.016542 ms</title></circle>
+<circle cx="1227.72" cy="269.69" r="3" fill="#c65b16"><title>array, descending: 3000, 0.083584 ms</title></circle>
+<circle cx="1291.33" cy="238.43" r="3" fill="#c65b16"><title>array, descending: 10000, 0.318834 ms</title></circle>
+<circle cx="1349.38" cy="214.55" r="3" fill="#c65b16"><title>array, descending: 30000, 0.887042 ms</title></circle>
+<circle cx="1413.00" cy="179.75" r="3" fill="#c65b16"><title>array, descending: 100000, 3.93871 ms</title></circle>
+<text x="1230.5" y="416" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="1036" y="140" text-anchor="end" class="tick">мс</text>
+<text x="78" y="448" class="caption">Чтение нулевых позиций</text>
+<line x1="78.00" y1="466" x2="78.00" y2="681" stroke="#e4e9ef"/>
+<text x="78.00" y="699" text-anchor="middle" class="tick">100</text>
+<line x1="199.67" y1="466" x2="199.67" y2="681" stroke="#e4e9ef"/>
+<text x="199.67" y="699" text-anchor="middle" class="tick">1000</text>
+<line x1="321.33" y1="466" x2="321.33" y2="681" stroke="#e4e9ef"/>
+<text x="321.33" y="699" text-anchor="middle" class="tick">10000</text>
+<line x1="443.00" y1="466" x2="443.00" y2="681" stroke="#e4e9ef"/>
+<text x="443.00" y="699" text-anchor="middle" class="tick">100000</text>
+<line x1="78" y1="681.00" x2="443" y2="681.00" stroke="#e4e9ef"/>
+<text x="69" y="685.00" text-anchor="end" class="tick">0.0001</text>
+<line x1="78" y1="638.00" x2="443" y2="638.00" stroke="#e4e9ef"/>
+<text x="69" y="642.00" text-anchor="end" class="tick">0.001</text>
+<line x1="78" y1="595.00" x2="443" y2="595.00" stroke="#e4e9ef"/>
+<text x="69" y="599.00" text-anchor="end" class="tick">0.01</text>
+<line x1="78" y1="552.00" x2="443" y2="552.00" stroke="#e4e9ef"/>
+<text x="69" y="556.00" text-anchor="end" class="tick">0.1</text>
+<line x1="78" y1="509.00" x2="443" y2="509.00" stroke="#e4e9ef"/>
+<text x="69" y="513.00" text-anchor="end" class="tick">1</text>
+<line x1="78" y1="466.00" x2="443" y2="466.00" stroke="#e4e9ef"/>
+<text x="69" y="470.00" text-anchor="end" class="tick">10</text>
+<rect x="78" y="466" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="78.00,645.56 136.05,621.20 199.67,597.76 257.72,574.00 321.33,547.20 379.38,523.94 443.00,497.09" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="78.00" cy="645.56" r="3" fill="#1768ac"><title>tree, random: 100, 0.000667 ms</title></circle>
+<circle cx="136.05" cy="621.20" r="3" fill="#1768ac"><title>tree, random: 300, 0.002459 ms</title></circle>
+<circle cx="199.67" cy="597.76" r="3" fill="#1768ac"><title>tree, random: 1000, 0.008625 ms</title></circle>
+<circle cx="257.72" cy="574.00" r="3" fill="#1768ac"><title>tree, random: 3000, 0.030792 ms</title></circle>
+<circle cx="321.33" cy="547.20" r="3" fill="#1768ac"><title>tree, random: 10000, 0.129334 ms</title></circle>
+<circle cx="379.38" cy="523.94" r="3" fill="#1768ac"><title>tree, random: 30000, 0.449333 ms</title></circle>
+<circle cx="443.00" cy="497.09" r="3" fill="#1768ac"><title>tree, random: 100000, 1.89217 ms</title></circle>
+<polyline points="78.00,642.38 136.05,622.51 199.67,598.22 257.72,574.90 321.33,548.40 379.38,523.18 443.00,497.29" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="78.00" cy="642.38" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.000791 ms</title></circle>
+<circle cx="136.05" cy="622.51" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.002292 ms</title></circle>
+<circle cx="199.67" cy="598.22" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.008417 ms</title></circle>
+<circle cx="257.72" cy="574.90" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.029334 ms</title></circle>
+<circle cx="321.33" cy="548.40" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.121291 ms</title></circle>
+<circle cx="379.38" cy="523.18" r="3" fill="#1768ac"><title>tree, ascending: 30000, 0.468084 ms</title></circle>
+<circle cx="443.00" cy="497.29" r="3" fill="#1768ac"><title>tree, ascending: 100000, 1.87192 ms</title></circle>
+<polyline points="78.00,643.37 136.05,621.53 199.67,598.13 257.72,573.50 321.33,549.34 379.38,523.76 443.00,496.93" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="78.00" cy="643.37" r="3" fill="#1768ac"><title>tree, descending: 100, 0.00075 ms</title></circle>
+<circle cx="136.05" cy="621.53" r="3" fill="#1768ac"><title>tree, descending: 300, 0.002416 ms</title></circle>
+<circle cx="199.67" cy="598.13" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.008458 ms</title></circle>
+<circle cx="257.72" cy="573.50" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.031625 ms</title></circle>
+<circle cx="321.33" cy="549.34" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.115333 ms</title></circle>
+<circle cx="379.38" cy="523.76" r="3" fill="#1768ac"><title>tree, descending: 30000, 0.453709 ms</title></circle>
+<circle cx="443.00" cy="496.93" r="3" fill="#1768ac"><title>tree, descending: 100000, 1.90804 ms</title></circle>
+<polyline points="78.00,636.51 136.05,607.33 199.67,587.22 257.72,561.88 321.33,536.06 379.38,513.11 443.00,487.27" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="78.00" cy="636.51" r="3" fill="#c65b16"><title>array, random: 100, 0.001083 ms</title></circle>
+<circle cx="136.05" cy="607.33" r="3" fill="#c65b16"><title>array, random: 300, 0.005167 ms</title></circle>
+<circle cx="199.67" cy="587.22" r="3" fill="#c65b16"><title>array, random: 1000, 0.015167 ms</title></circle>
+<circle cx="257.72" cy="561.88" r="3" fill="#c65b16"><title>array, random: 3000, 0.058916 ms</title></circle>
+<circle cx="321.33" cy="536.06" r="3" fill="#c65b16"><title>array, random: 10000, 0.234792 ms</title></circle>
+<circle cx="379.38" cy="513.11" r="3" fill="#c65b16"><title>array, random: 30000, 0.802459 ms</title></circle>
+<circle cx="443.00" cy="487.27" r="3" fill="#c65b16"><title>array, random: 100000, 3.20079 ms</title></circle>
+<polyline points="78.00,637.25 136.05,611.35 199.67,587.17 257.72,561.66 321.33,535.88 379.38,513.17 443.00,487.37" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="78.00" cy="637.25" r="3" fill="#c65b16"><title>array, ascending: 100, 0.001041 ms</title></circle>
+<circle cx="136.05" cy="611.35" r="3" fill="#c65b16"><title>array, ascending: 300, 0.004166 ms</title></circle>
+<circle cx="199.67" cy="587.17" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.015208 ms</title></circle>
+<circle cx="257.72" cy="561.66" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.059625 ms</title></circle>
+<circle cx="321.33" cy="535.88" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.237041 ms</title></circle>
+<circle cx="379.38" cy="513.17" r="3" fill="#c65b16"><title>array, ascending: 30000, 0.799709 ms</title></circle>
+<circle cx="443.00" cy="487.37" r="3" fill="#c65b16"><title>array, ascending: 100000, 3.18446 ms</title></circle>
+<polyline points="78.00,637.23 136.05,611.92 199.67,586.67 257.72,561.38 321.33,535.80 379.38,512.94 443.00,487.39" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="78.00" cy="637.23" r="3" fill="#c65b16"><title>array, descending: 100, 0.001042 ms</title></circle>
+<circle cx="136.05" cy="611.92" r="3" fill="#c65b16"><title>array, descending: 300, 0.004041 ms</title></circle>
+<circle cx="199.67" cy="586.67" r="3" fill="#c65b16"><title>array, descending: 1000, 0.015625 ms</title></circle>
+<circle cx="257.72" cy="561.38" r="3" fill="#c65b16"><title>array, descending: 3000, 0.0605 ms</title></circle>
+<circle cx="321.33" cy="535.80" r="3" fill="#c65b16"><title>array, descending: 10000, 0.238125 ms</title></circle>
+<circle cx="379.38" cy="512.94" r="3" fill="#c65b16"><title>array, descending: 30000, 0.809958 ms</title></circle>
+<circle cx="443.00" cy="487.39" r="3" fill="#c65b16"><title>array, descending: 100000, 3.18033 ms</title></circle>
+<text x="260.5" y="724" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="66" y="448" text-anchor="end" class="tick">мс</text>
+<text x="563" y="448" class="caption">Обновление существующих записей</text>
+<line x1="563.00" y1="466" x2="563.00" y2="681" stroke="#e4e9ef"/>
+<text x="563.00" y="699" text-anchor="middle" class="tick">100</text>
+<line x1="684.67" y1="466" x2="684.67" y2="681" stroke="#e4e9ef"/>
+<text x="684.67" y="699" text-anchor="middle" class="tick">1000</text>
+<line x1="806.33" y1="466" x2="806.33" y2="681" stroke="#e4e9ef"/>
+<text x="806.33" y="699" text-anchor="middle" class="tick">10000</text>
+<line x1="928.00" y1="466" x2="928.00" y2="681" stroke="#e4e9ef"/>
+<text x="928.00" y="699" text-anchor="middle" class="tick">100000</text>
+<line x1="563" y1="681.00" x2="928" y2="681.00" stroke="#e4e9ef"/>
+<text x="554" y="685.00" text-anchor="end" class="tick">0.001</text>
+<line x1="563" y1="627.25" x2="928" y2="627.25" stroke="#e4e9ef"/>
+<text x="554" y="631.25" text-anchor="end" class="tick">0.01</text>
+<line x1="563" y1="573.50" x2="928" y2="573.50" stroke="#e4e9ef"/>
+<text x="554" y="577.50" text-anchor="end" class="tick">0.1</text>
+<line x1="563" y1="519.75" x2="928" y2="519.75" stroke="#e4e9ef"/>
+<text x="554" y="523.75" text-anchor="end" class="tick">1</text>
+<line x1="563" y1="466.00" x2="928" y2="466.00" stroke="#e4e9ef"/>
+<text x="554" y="470.00" text-anchor="end" class="tick">10</text>
+<rect x="563" y="466" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="563.00,658.47 621.05,629.28 684.67,598.03 742.72,568.28 806.33,535.63 864.38,504.85 928.00,471.84" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="563.00" cy="658.47" r="3" fill="#1768ac"><title>tree, random: 100, 0.002625 ms</title></circle>
+<circle cx="621.05" cy="629.28" r="3" fill="#1768ac"><title>tree, random: 300, 0.009167 ms</title></circle>
+<circle cx="684.67" cy="598.03" r="3" fill="#1768ac"><title>tree, random: 1000, 0.034958 ms</title></circle>
+<circle cx="742.72" cy="568.28" r="3" fill="#1768ac"><title>tree, random: 3000, 0.125084 ms</title></circle>
+<circle cx="806.33" cy="535.63" r="3" fill="#1768ac"><title>tree, random: 10000, 0.5065 ms</title></circle>
+<circle cx="864.38" cy="504.85" r="3" fill="#1768ac"><title>tree, random: 30000, 1.89362 ms</title></circle>
+<circle cx="928.00" cy="471.84" r="3" fill="#1768ac"><title>tree, random: 100000, 7.78571 ms</title></circle>
+<polyline points="563.00,675.02 621.05,636.86 684.67,602.67 742.72,576.57 806.33,549.67 864.38,522.88 928.00,492.23" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="563.00" cy="675.02" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.001292 ms</title></circle>
+<circle cx="621.05" cy="636.86" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.006625 ms</title></circle>
+<circle cx="684.67" cy="602.67" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.028666 ms</title></circle>
+<circle cx="742.72" cy="576.57" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.087667 ms</title></circle>
+<circle cx="806.33" cy="549.67" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.277583 ms</title></circle>
+<circle cx="864.38" cy="522.88" r="3" fill="#1768ac"><title>tree, ascending: 30000, 0.874625 ms</title></circle>
+<circle cx="928.00" cy="492.23" r="3" fill="#1768ac"><title>tree, ascending: 100000, 3.251 ms</title></circle>
+<polyline points="563.00,673.57 621.05,640.17 684.67,603.85 742.72,576.07 806.33,550.31 864.38,522.49 928.00,492.60" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="563.00" cy="673.57" r="3" fill="#1768ac"><title>tree, descending: 100, 0.001375 ms</title></circle>
+<circle cx="621.05" cy="640.17" r="3" fill="#1768ac"><title>tree, descending: 300, 0.00575 ms</title></circle>
+<circle cx="684.67" cy="603.85" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.02725 ms</title></circle>
+<circle cx="742.72" cy="576.07" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.089584 ms</title></circle>
+<circle cx="806.33" cy="550.31" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.27 ms</title></circle>
+<circle cx="864.38" cy="522.49" r="3" fill="#1768ac"><title>tree, descending: 30000, 0.889083 ms</title></circle>
+<circle cx="928.00" cy="492.60" r="3" fill="#1768ac"><title>tree, descending: 100000, 3.19921 ms</title></circle>
+<polyline points="563.00,663.87 621.05,632.46 684.67,603.67 742.72,569.93 806.33,538.29 864.38,509.61 928.00,475.30" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="563.00" cy="663.87" r="3" fill="#c65b16"><title>array, random: 100, 0.002083 ms</title></circle>
+<circle cx="621.05" cy="632.46" r="3" fill="#c65b16"><title>array, random: 300, 0.008 ms</title></circle>
+<circle cx="684.67" cy="603.67" r="3" fill="#c65b16"><title>array, random: 1000, 0.027458 ms</title></circle>
+<circle cx="742.72" cy="569.93" r="3" fill="#c65b16"><title>array, random: 3000, 0.116541 ms</title></circle>
+<circle cx="806.33" cy="538.29" r="3" fill="#c65b16"><title>array, random: 10000, 0.451875 ms</title></circle>
+<circle cx="864.38" cy="509.61" r="3" fill="#c65b16"><title>array, random: 30000, 1.54425 ms</title></circle>
+<circle cx="928.00" cy="475.30" r="3" fill="#c65b16"><title>array, random: 100000, 6.7145 ms</title></circle>
+<polyline points="563.00,663.87 621.05,632.34 684.67,603.85 742.72,570.03 806.33,539.08 864.38,512.91 928.00,480.69" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="563.00" cy="663.87" r="3" fill="#c65b16"><title>array, ascending: 100, 0.002083 ms</title></circle>
+<circle cx="621.05" cy="632.34" r="3" fill="#c65b16"><title>array, ascending: 300, 0.008042 ms</title></circle>
+<circle cx="684.67" cy="603.85" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.02725 ms</title></circle>
+<circle cx="742.72" cy="570.03" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.116042 ms</title></circle>
+<circle cx="806.33" cy="539.08" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.436917 ms</title></circle>
+<circle cx="864.38" cy="512.91" r="3" fill="#c65b16"><title>array, ascending: 30000, 1.34038 ms</title></circle>
+<circle cx="928.00" cy="480.69" r="3" fill="#c65b16"><title>array, ascending: 100000, 5.32975 ms</title></circle>
+<polyline points="563.00,663.87 621.05,633.08 684.67,603.01 742.72,569.39 806.33,539.60 864.38,512.70 928.00,480.72" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="563.00" cy="663.87" r="3" fill="#c65b16"><title>array, descending: 100, 0.002083 ms</title></circle>
+<circle cx="621.05" cy="633.08" r="3" fill="#c65b16"><title>array, descending: 300, 0.007791 ms</title></circle>
+<circle cx="684.67" cy="603.01" r="3" fill="#c65b16"><title>array, descending: 1000, 0.02825 ms</title></circle>
+<circle cx="742.72" cy="569.39" r="3" fill="#c65b16"><title>array, descending: 3000, 0.11925 ms</title></circle>
+<circle cx="806.33" cy="539.60" r="3" fill="#c65b16"><title>array, descending: 10000, 0.427333 ms</title></circle>
+<circle cx="864.38" cy="512.70" r="3" fill="#c65b16"><title>array, descending: 30000, 1.35267 ms</title></circle>
+<circle cx="928.00" cy="480.72" r="3" fill="#c65b16"><title>array, descending: 100000, 5.32225 ms</title></circle>
+<text x="745.5" y="724" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="551" y="448" text-anchor="end" class="tick">мс</text>
+<text x="1048" y="448" class="caption">Удаление записью нуля</text>
+<line x1="1048.00" y1="466" x2="1048.00" y2="681" stroke="#e4e9ef"/>
+<text x="1048.00" y="699" text-anchor="middle" class="tick">100</text>
+<line x1="1169.67" y1="466" x2="1169.67" y2="681" stroke="#e4e9ef"/>
+<text x="1169.67" y="699" text-anchor="middle" class="tick">1000</text>
+<line x1="1291.33" y1="466" x2="1291.33" y2="681" stroke="#e4e9ef"/>
+<text x="1291.33" y="699" text-anchor="middle" class="tick">10000</text>
+<line x1="1413.00" y1="466" x2="1413.00" y2="681" stroke="#e4e9ef"/>
+<text x="1413.00" y="699" text-anchor="middle" class="tick">100000</text>
+<line x1="1048" y1="681.00" x2="1413" y2="681.00" stroke="#e4e9ef"/>
+<text x="1039" y="685.00" text-anchor="end" class="tick">0.001</text>
+<line x1="1048" y1="650.29" x2="1413" y2="650.29" stroke="#e4e9ef"/>
+<text x="1039" y="654.29" text-anchor="end" class="tick">0.01</text>
+<line x1="1048" y1="619.57" x2="1413" y2="619.57" stroke="#e4e9ef"/>
+<text x="1039" y="623.57" text-anchor="end" class="tick">0.1</text>
+<line x1="1048" y1="588.86" x2="1413" y2="588.86" stroke="#e4e9ef"/>
+<text x="1039" y="592.86" text-anchor="end" class="tick">1</text>
+<line x1="1048" y1="558.14" x2="1413" y2="558.14" stroke="#e4e9ef"/>
+<text x="1039" y="562.14" text-anchor="end" class="tick">10</text>
+<line x1="1048" y1="527.43" x2="1413" y2="527.43" stroke="#e4e9ef"/>
+<text x="1039" y="531.43" text-anchor="end" class="tick">100</text>
+<line x1="1048" y1="496.71" x2="1413" y2="496.71" stroke="#e4e9ef"/>
+<text x="1039" y="500.71" text-anchor="end" class="tick">1000</text>
+<line x1="1048" y1="466.00" x2="1413" y2="466.00" stroke="#e4e9ef"/>
+<text x="1039" y="470.00" text-anchor="end" class="tick">10000</text>
+<rect x="1048" y="466" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="1048.00,657.86 1106.05,641.90 1169.67,624.08 1227.72,607.50 1291.33,589.04 1349.38,572.43 1413.00,553.62" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1048.00" cy="657.86" r="3" fill="#1768ac"><title>tree, random: 100, 0.005667 ms</title></circle>
+<circle cx="1106.05" cy="641.90" r="3" fill="#1768ac"><title>tree, random: 300, 0.01875 ms</title></circle>
+<circle cx="1169.67" cy="624.08" r="3" fill="#1768ac"><title>tree, random: 1000, 0.071333 ms</title></circle>
+<circle cx="1227.72" cy="607.50" r="3" fill="#1768ac"><title>tree, random: 3000, 0.247166 ms</title></circle>
+<circle cx="1291.33" cy="589.04" r="3" fill="#1768ac"><title>tree, random: 10000, 0.986375 ms</title></circle>
+<circle cx="1349.38" cy="572.43" r="3" fill="#1768ac"><title>tree, random: 30000, 3.42725 ms</title></circle>
+<circle cx="1413.00" cy="553.62" r="3" fill="#1768ac"><title>tree, random: 100000, 14.0338 ms</title></circle>
+<polyline points="1048.00,667.51 1106.05,651.39 1169.67,634.08 1227.72,618.49 1291.33,600.69 1349.38,586.11 1413.00,568.48" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="1048.00" cy="667.51" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.00275 ms</title></circle>
+<circle cx="1106.05" cy="651.39" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.009208 ms</title></circle>
+<circle cx="1169.67" cy="634.08" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.033709 ms</title></circle>
+<circle cx="1227.72" cy="618.49" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.108416 ms</title></circle>
+<circle cx="1291.33" cy="600.69" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.411708 ms</title></circle>
+<circle cx="1349.38" cy="586.11" r="3" fill="#1768ac"><title>tree, ascending: 30000, 1.22833 ms</title></circle>
+<circle cx="1413.00" cy="568.48" r="3" fill="#1768ac"><title>tree, ascending: 100000, 4.60567 ms</title></circle>
+<polyline points="1048.00,666.53 1106.05,651.09 1169.67,633.21 1227.72,617.24 1291.33,600.38 1349.38,584.24 1413.00,566.46" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="1048.00" cy="666.53" r="3" fill="#1768ac"><title>tree, descending: 100, 0.002958 ms</title></circle>
+<circle cx="1106.05" cy="651.09" r="3" fill="#1768ac"><title>tree, descending: 300, 0.009417 ms</title></circle>
+<circle cx="1169.67" cy="633.21" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.035958 ms</title></circle>
+<circle cx="1227.72" cy="617.24" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.119084 ms</title></circle>
+<circle cx="1291.33" cy="600.38" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.421667 ms</title></circle>
+<circle cx="1349.38" cy="584.24" r="3" fill="#1768ac"><title>tree, descending: 30000, 1.41312 ms</title></circle>
+<circle cx="1413.00" cy="566.46" r="3" fill="#1768ac"><title>tree, descending: 100000, 5.35987 ms</title></circle>
+<polyline points="1048.00,665.62 1106.05,645.21 1169.67,620.77 1227.72,594.36 1291.33,563.96 1349.38,533.27 1413.00,500.82" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1048.00" cy="665.62" r="3" fill="#c65b16"><title>array, random: 100, 0.003167 ms</title></circle>
+<circle cx="1106.05" cy="645.21" r="3" fill="#c65b16"><title>array, random: 300, 0.014625 ms</title></circle>
+<circle cx="1169.67" cy="620.77" r="3" fill="#c65b16"><title>array, random: 1000, 0.091417 ms</title></circle>
+<circle cx="1227.72" cy="594.36" r="3" fill="#c65b16"><title>array, random: 3000, 0.662166 ms</title></circle>
+<circle cx="1291.33" cy="563.96" r="3" fill="#c65b16"><title>array, random: 10000, 6.4635 ms</title></circle>
+<circle cx="1349.38" cy="533.27" r="3" fill="#c65b16"><title>array, random: 30000, 64.5552 ms</title></circle>
+<circle cx="1413.00" cy="500.82" r="3" fill="#c65b16"><title>array, random: 100000, 735.216 ms</title></circle>
+<polyline points="1048.00,663.52 1106.05,641.10 1169.67,613.97 1227.72,586.40 1291.33,554.56 1349.38,524.07 1413.00,491.63" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="1048.00" cy="663.52" r="3" fill="#c65b16"><title>array, ascending: 100, 0.003708 ms</title></circle>
+<circle cx="1106.05" cy="641.10" r="3" fill="#c65b16"><title>array, ascending: 300, 0.019917 ms</title></circle>
+<circle cx="1169.67" cy="613.97" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.152208 ms</title></circle>
+<circle cx="1227.72" cy="586.40" r="3" fill="#c65b16"><title>array, ascending: 3000, 1.20192 ms</title></circle>
+<circle cx="1291.33" cy="554.56" r="3" fill="#c65b16"><title>array, ascending: 10000, 13.0829 ms</title></circle>
+<circle cx="1349.38" cy="524.07" r="3" fill="#c65b16"><title>array, ascending: 30000, 128.594 ms</title></circle>
+<circle cx="1413.00" cy="491.63" r="3" fill="#c65b16"><title>array, ascending: 100000, 1464.3 ms</title></circle>
+<polyline points="1048.00,679.94 1106.05,664.29 1169.67,646.12 1227.72,628.62 1291.33,610.39 1349.38,593.27 1413.00,575.07" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="1048.00" cy="679.94" r="3" fill="#c65b16"><title>array, descending: 100, 0.001083 ms</title></circle>
+<circle cx="1106.05" cy="664.29" r="3" fill="#c65b16"><title>array, descending: 300, 0.0035 ms</title></circle>
+<circle cx="1169.67" cy="646.12" r="3" fill="#c65b16"><title>array, descending: 1000, 0.013666 ms</title></circle>
+<circle cx="1227.72" cy="628.62" r="3" fill="#c65b16"><title>array, descending: 3000, 0.05075 ms</title></circle>
+<circle cx="1291.33" cy="610.39" r="3" fill="#c65b16"><title>array, descending: 10000, 0.199042 ms</title></circle>
+<circle cx="1349.38" cy="593.27" r="3" fill="#c65b16"><title>array, descending: 30000, 0.718125 ms</title></circle>
+<circle cx="1413.00" cy="575.07" r="3" fill="#c65b16"><title>array, descending: 100000, 2.81171 ms</title></circle>
+<text x="1230.5" y="724" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="1036" y="448" text-anchor="end" class="tick">мс</text>
+<text x="78" y="756" class="caption">Map identity</text>
+<line x1="78.00" y1="774" x2="78.00" y2="989" stroke="#e4e9ef"/>
+<text x="78.00" y="1007" text-anchor="middle" class="tick">100</text>
+<line x1="199.67" y1="774" x2="199.67" y2="989" stroke="#e4e9ef"/>
+<text x="199.67" y="1007" text-anchor="middle" class="tick">1000</text>
+<line x1="321.33" y1="774" x2="321.33" y2="989" stroke="#e4e9ef"/>
+<text x="321.33" y="1007" text-anchor="middle" class="tick">10000</text>
+<line x1="443.00" y1="774" x2="443.00" y2="989" stroke="#e4e9ef"/>
+<text x="443.00" y="1007" text-anchor="middle" class="tick">100000</text>
+<line x1="78" y1="989.00" x2="443" y2="989.00" stroke="#e4e9ef"/>
+<text x="69" y="993.00" text-anchor="end" class="tick">0.001</text>
+<line x1="78" y1="935.25" x2="443" y2="935.25" stroke="#e4e9ef"/>
+<text x="69" y="939.25" text-anchor="end" class="tick">0.01</text>
+<line x1="78" y1="881.50" x2="443" y2="881.50" stroke="#e4e9ef"/>
+<text x="69" y="885.50" text-anchor="end" class="tick">0.1</text>
+<line x1="78" y1="827.75" x2="443" y2="827.75" stroke="#e4e9ef"/>
+<text x="69" y="831.75" text-anchor="end" class="tick">1</text>
+<line x1="78" y1="774.00" x2="443" y2="774.00" stroke="#e4e9ef"/>
+<text x="69" y="778.00" text-anchor="end" class="tick">10</text>
+<rect x="78" y="774" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="78.00,942.76 136.05,916.93 199.67,888.53 257.72,861.25 321.33,827.95 379.38,804.93 443.00,774.07" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="78.00" cy="942.76" r="3" fill="#1768ac"><title>tree, random: 100, 0.00725 ms</title></circle>
+<circle cx="136.05" cy="916.93" r="3" fill="#1768ac"><title>tree, random: 300, 0.021917 ms</title></circle>
+<circle cx="199.67" cy="888.53" r="3" fill="#1768ac"><title>tree, random: 1000, 0.074 ms</title></circle>
+<circle cx="257.72" cy="861.25" r="3" fill="#1768ac"><title>tree, random: 3000, 0.238083 ms</title></circle>
+<circle cx="321.33" cy="827.95" r="3" fill="#1768ac"><title>tree, random: 10000, 0.991458 ms</title></circle>
+<circle cx="379.38" cy="804.93" r="3" fill="#1768ac"><title>tree, random: 30000, 2.6585 ms</title></circle>
+<circle cx="443.00" cy="774.07" r="3" fill="#1768ac"><title>tree, random: 100000, 9.969 ms</title></circle>
+<polyline points="78.00,943.58 136.05,916.54 199.67,888.54 257.72,861.84 321.33,830.47 379.38,805.61 443.00,775.78" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="78.00" cy="943.58" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.007 ms</title></circle>
+<circle cx="136.05" cy="916.54" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.022292 ms</title></circle>
+<circle cx="199.67" cy="888.54" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.073958 ms</title></circle>
+<circle cx="257.72" cy="861.84" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.232167 ms</title></circle>
+<circle cx="321.33" cy="830.47" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.889875 ms</title></circle>
+<circle cx="379.38" cy="805.61" r="3" fill="#1768ac"><title>tree, ascending: 30000, 2.58154 ms</title></circle>
+<circle cx="443.00" cy="775.78" r="3" fill="#1768ac"><title>tree, ascending: 100000, 9.26646 ms</title></circle>
+<polyline points="78.00,944.42 136.05,917.61 199.67,889.15 257.72,861.69 321.33,832.53 379.38,805.37 443.00,775.46" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="78.00" cy="944.42" r="3" fill="#1768ac"><title>tree, descending: 100, 0.00675 ms</title></circle>
+<circle cx="136.05" cy="917.61" r="3" fill="#1768ac"><title>tree, descending: 300, 0.021292 ms</title></circle>
+<circle cx="199.67" cy="889.15" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.072042 ms</title></circle>
+<circle cx="257.72" cy="861.69" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.233667 ms</title></circle>
+<circle cx="321.33" cy="832.53" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.814916 ms</title></circle>
+<circle cx="379.38" cy="805.37" r="3" fill="#1768ac"><title>tree, descending: 30000, 2.60875 ms</title></circle>
+<circle cx="443.00" cy="775.46" r="3" fill="#1768ac"><title>tree, descending: 100000, 9.39379 ms</title></circle>
+<polyline points="78.00,974.86 136.05,954.99 199.67,929.96 257.72,904.21 321.33,873.35 379.38,849.28 443.00,818.64" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="78.00" cy="974.86" r="3" fill="#c65b16"><title>array, random: 100, 0.001833 ms</title></circle>
+<circle cx="136.05" cy="954.99" r="3" fill="#c65b16"><title>array, random: 300, 0.004292 ms</title></circle>
+<circle cx="199.67" cy="929.96" r="3" fill="#c65b16"><title>array, random: 1000, 0.012541 ms</title></circle>
+<circle cx="257.72" cy="904.21" r="3" fill="#c65b16"><title>array, random: 3000, 0.037792 ms</title></circle>
+<circle cx="321.33" cy="873.35" r="3" fill="#c65b16"><title>array, random: 10000, 0.141792 ms</title></circle>
+<circle cx="379.38" cy="849.28" r="3" fill="#c65b16"><title>array, random: 30000, 0.397583 ms</title></circle>
+<circle cx="443.00" cy="818.64" r="3" fill="#c65b16"><title>array, random: 100000, 1.47754 ms</title></circle>
+<polyline points="78.00,977.67 136.05,954.99 199.67,930.75 257.72,904.11 321.33,874.83 379.38,849.84 443.00,820.85" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="78.00" cy="977.67" r="3" fill="#c65b16"><title>array, ascending: 100, 0.001625 ms</title></circle>
+<circle cx="136.05" cy="954.99" r="3" fill="#c65b16"><title>array, ascending: 300, 0.004292 ms</title></circle>
+<circle cx="199.67" cy="930.75" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.012125 ms</title></circle>
+<circle cx="257.72" cy="904.11" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.037958 ms</title></circle>
+<circle cx="321.33" cy="874.83" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.133083 ms</title></circle>
+<circle cx="379.38" cy="849.84" r="3" fill="#c65b16"><title>array, ascending: 30000, 0.388167 ms</title></circle>
+<circle cx="443.00" cy="820.85" r="3" fill="#c65b16"><title>array, ascending: 100000, 1.34413 ms</title></circle>
+<polyline points="78.00,977.67 136.05,956.15 199.67,931.07 257.72,904.01 321.33,875.77 379.38,849.81 443.00,822.16" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="78.00" cy="977.67" r="3" fill="#c65b16"><title>array, descending: 100, 0.001625 ms</title></circle>
+<circle cx="136.05" cy="956.15" r="3" fill="#c65b16"><title>array, descending: 300, 0.004084 ms</title></circle>
+<circle cx="199.67" cy="931.07" r="3" fill="#c65b16"><title>array, descending: 1000, 0.011959 ms</title></circle>
+<circle cx="257.72" cy="904.01" r="3" fill="#c65b16"><title>array, descending: 3000, 0.038125 ms</title></circle>
+<circle cx="321.33" cy="875.77" r="3" fill="#c65b16"><title>array, descending: 10000, 0.127833 ms</title></circle>
+<circle cx="379.38" cy="849.81" r="3" fill="#c65b16"><title>array, descending: 30000, 0.388709 ms</title></circle>
+<circle cx="443.00" cy="822.16" r="3" fill="#c65b16"><title>array, descending: 100000, 1.27075 ms</title></circle>
+<text x="260.5" y="1032" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="66" y="756" text-anchor="end" class="tick">мс</text>
+<text x="563" y="756" class="caption">Where positive</text>
+<line x1="563.00" y1="774" x2="563.00" y2="989" stroke="#e4e9ef"/>
+<text x="563.00" y="1007" text-anchor="middle" class="tick">100</text>
+<line x1="684.67" y1="774" x2="684.67" y2="989" stroke="#e4e9ef"/>
+<text x="684.67" y="1007" text-anchor="middle" class="tick">1000</text>
+<line x1="806.33" y1="774" x2="806.33" y2="989" stroke="#e4e9ef"/>
+<text x="806.33" y="1007" text-anchor="middle" class="tick">10000</text>
+<line x1="928.00" y1="774" x2="928.00" y2="989" stroke="#e4e9ef"/>
+<text x="928.00" y="1007" text-anchor="middle" class="tick">100000</text>
+<line x1="563" y1="989.00" x2="928" y2="989.00" stroke="#e4e9ef"/>
+<text x="554" y="993.00" text-anchor="end" class="tick">0.001</text>
+<line x1="563" y1="935.25" x2="928" y2="935.25" stroke="#e4e9ef"/>
+<text x="554" y="939.25" text-anchor="end" class="tick">0.01</text>
+<line x1="563" y1="881.50" x2="928" y2="881.50" stroke="#e4e9ef"/>
+<text x="554" y="885.50" text-anchor="end" class="tick">0.1</text>
+<line x1="563" y1="827.75" x2="928" y2="827.75" stroke="#e4e9ef"/>
+<text x="554" y="831.75" text-anchor="end" class="tick">1</text>
+<line x1="563" y1="774.00" x2="928" y2="774.00" stroke="#e4e9ef"/>
+<text x="554" y="778.00" text-anchor="end" class="tick">10</text>
+<rect x="563" y="774" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="563.00,945.45 621.05,924.22 684.67,895.44 742.72,869.30 806.33,840.19 864.38,813.02 928.00,784.49" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="563.00" cy="945.45" r="3" fill="#1768ac"><title>tree, random: 100, 0.006459 ms</title></circle>
+<circle cx="621.05" cy="924.22" r="3" fill="#1768ac"><title>tree, random: 300, 0.016041 ms</title></circle>
+<circle cx="684.67" cy="895.44" r="3" fill="#1768ac"><title>tree, random: 1000, 0.055042 ms</title></circle>
+<circle cx="742.72" cy="869.30" r="3" fill="#1768ac"><title>tree, random: 3000, 0.168625 ms</title></circle>
+<circle cx="806.33" cy="840.19" r="3" fill="#1768ac"><title>tree, random: 10000, 0.586958 ms</title></circle>
+<circle cx="864.38" cy="813.02" r="3" fill="#1768ac"><title>tree, random: 30000, 1.87942 ms</title></circle>
+<circle cx="928.00" cy="784.49" r="3" fill="#1768ac"><title>tree, random: 100000, 6.3795 ms</title></circle>
+<polyline points="563.00,950.29 621.05,924.77 684.67,895.83 742.72,870.17 806.33,838.92 864.38,814.55 928.00,786.21" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="563.00" cy="950.29" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.00525 ms</title></circle>
+<circle cx="621.05" cy="924.77" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.015666 ms</title></circle>
+<circle cx="684.67" cy="895.83" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.054125 ms</title></circle>
+<circle cx="742.72" cy="870.17" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.1625 ms</title></circle>
+<circle cx="806.33" cy="838.92" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.619666 ms</title></circle>
+<circle cx="864.38" cy="814.55" r="3" fill="#1768ac"><title>tree, ascending: 30000, 1.76012 ms</title></circle>
+<circle cx="928.00" cy="786.21" r="3" fill="#1768ac"><title>tree, ascending: 100000, 5.92638 ms</title></circle>
+<polyline points="563.00,950.29 621.05,925.27 684.67,896.60 742.72,869.83 806.33,841.96 864.38,814.96 928.00,785.49" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="563.00" cy="950.29" r="3" fill="#1768ac"><title>tree, descending: 100, 0.00525 ms</title></circle>
+<circle cx="621.05" cy="925.27" r="3" fill="#1768ac"><title>tree, descending: 300, 0.015334 ms</title></circle>
+<circle cx="684.67" cy="896.60" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.052375 ms</title></circle>
+<circle cx="742.72" cy="869.83" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.164834 ms</title></circle>
+<circle cx="806.33" cy="841.96" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.544042 ms</title></circle>
+<circle cx="864.38" cy="814.96" r="3" fill="#1768ac"><title>tree, descending: 30000, 1.72983 ms</title></circle>
+<circle cx="928.00" cy="785.49" r="3" fill="#1768ac"><title>tree, descending: 100000, 6.11333 ms</title></circle>
+<polyline points="563.00,976.50 621.05,955.22 684.67,931.08 742.72,904.97 806.33,876.66 864.38,851.22 928.00,822.59" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="563.00" cy="976.50" r="3" fill="#c65b16"><title>array, random: 100, 0.001708 ms</title></circle>
+<circle cx="621.05" cy="955.22" r="3" fill="#c65b16"><title>array, random: 300, 0.00425 ms</title></circle>
+<circle cx="684.67" cy="931.08" r="3" fill="#c65b16"><title>array, random: 1000, 0.011958 ms</title></circle>
+<circle cx="742.72" cy="904.97" r="3" fill="#c65b16"><title>array, random: 3000, 0.036583 ms</title></circle>
+<circle cx="806.33" cy="876.66" r="3" fill="#c65b16"><title>array, random: 10000, 0.123041 ms</title></circle>
+<circle cx="864.38" cy="851.22" r="3" fill="#c65b16"><title>array, random: 30000, 0.365958 ms</title></circle>
+<circle cx="928.00" cy="822.59" r="3" fill="#c65b16"><title>array, random: 100000, 1.24758 ms</title></circle>
+<polyline points="563.00,980.86 621.05,955.68 684.67,930.67 742.72,904.81 806.33,876.37 864.38,852.00 928.00,823.00" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="563.00" cy="980.86" r="3" fill="#c65b16"><title>array, ascending: 100, 0.001417 ms</title></circle>
+<circle cx="621.05" cy="955.68" r="3" fill="#c65b16"><title>array, ascending: 300, 0.004167 ms</title></circle>
+<circle cx="684.67" cy="930.67" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.012166 ms</title></circle>
+<circle cx="742.72" cy="904.81" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.036833 ms</title></circle>
+<circle cx="806.33" cy="876.37" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.124583 ms</title></circle>
+<circle cx="864.38" cy="852.00" r="3" fill="#c65b16"><title>array, ascending: 30000, 0.353875 ms</title></circle>
+<circle cx="928.00" cy="823.00" r="3" fill="#c65b16"><title>array, ascending: 100000, 1.22592 ms</title></circle>
+<polyline points="563.00,980.18 621.05,954.55 684.67,930.59 742.72,904.81 806.33,877.31 864.38,851.55 928.00,823.14" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="563.00" cy="980.18" r="3" fill="#c65b16"><title>array, descending: 100, 0.001459 ms</title></circle>
+<circle cx="621.05" cy="954.55" r="3" fill="#c65b16"><title>array, descending: 300, 0.004375 ms</title></circle>
+<circle cx="684.67" cy="930.59" r="3" fill="#c65b16"><title>array, descending: 1000, 0.012208 ms</title></circle>
+<circle cx="742.72" cy="904.81" r="3" fill="#c65b16"><title>array, descending: 3000, 0.036834 ms</title></circle>
+<circle cx="806.33" cy="877.31" r="3" fill="#c65b16"><title>array, descending: 10000, 0.119666 ms</title></circle>
+<circle cx="864.38" cy="851.55" r="3" fill="#c65b16"><title>array, descending: 30000, 0.36075 ms</title></circle>
+<circle cx="928.00" cy="823.14" r="3" fill="#c65b16"><title>array, descending: 100000, 1.21829 ms</title></circle>
+<text x="745.5" y="1032" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="551" y="756" text-anchor="end" class="tick">мс</text>
+<text x="1048" y="756" class="caption">Reduce xor</text>
+<line x1="1048.00" y1="774" x2="1048.00" y2="989" stroke="#e4e9ef"/>
+<text x="1048.00" y="1007" text-anchor="middle" class="tick">100</text>
+<line x1="1169.67" y1="774" x2="1169.67" y2="989" stroke="#e4e9ef"/>
+<text x="1169.67" y="1007" text-anchor="middle" class="tick">1000</text>
+<line x1="1291.33" y1="774" x2="1291.33" y2="989" stroke="#e4e9ef"/>
+<text x="1291.33" y="1007" text-anchor="middle" class="tick">10000</text>
+<line x1="1413.00" y1="774" x2="1413.00" y2="989" stroke="#e4e9ef"/>
+<text x="1413.00" y="1007" text-anchor="middle" class="tick">100000</text>
+<line x1="1048" y1="989.00" x2="1413" y2="989.00" stroke="#e4e9ef"/>
+<text x="1039" y="993.00" text-anchor="end" class="tick">0.0001</text>
+<line x1="1048" y1="946.00" x2="1413" y2="946.00" stroke="#e4e9ef"/>
+<text x="1039" y="950.00" text-anchor="end" class="tick">0.001</text>
+<line x1="1048" y1="903.00" x2="1413" y2="903.00" stroke="#e4e9ef"/>
+<text x="1039" y="907.00" text-anchor="end" class="tick">0.01</text>
+<line x1="1048" y1="860.00" x2="1413" y2="860.00" stroke="#e4e9ef"/>
+<text x="1039" y="864.00" text-anchor="end" class="tick">0.1</text>
+<line x1="1048" y1="817.00" x2="1413" y2="817.00" stroke="#e4e9ef"/>
+<text x="1039" y="821.00" text-anchor="end" class="tick">1</text>
+<line x1="1048" y1="774.00" x2="1413" y2="774.00" stroke="#e4e9ef"/>
+<text x="1039" y="778.00" text-anchor="end" class="tick">10</text>
+<rect x="1048" y="774" width="365" height="215" fill="none" stroke="#b5bfcd"/>
+<polyline points="1048.00,926.55 1106.05,907.46 1169.67,884.60 1227.72,863.87 1291.33,841.30 1349.38,821.17 1413.00,798.47" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1048.00" cy="926.55" r="3" fill="#1768ac"><title>tree, random: 100, 0.002833 ms</title></circle>
+<circle cx="1106.05" cy="907.46" r="3" fill="#1768ac"><title>tree, random: 300, 0.007875 ms</title></circle>
+<circle cx="1169.67" cy="884.60" r="3" fill="#1768ac"><title>tree, random: 1000, 0.026791 ms</title></circle>
+<circle cx="1227.72" cy="863.87" r="3" fill="#1768ac"><title>tree, random: 3000, 0.081291 ms</title></circle>
+<circle cx="1291.33" cy="841.30" r="3" fill="#1768ac"><title>tree, random: 10000, 0.272208 ms</title></circle>
+<circle cx="1349.38" cy="821.17" r="3" fill="#1768ac"><title>tree, random: 30000, 0.800042 ms</title></circle>
+<circle cx="1413.00" cy="798.47" r="3" fill="#1768ac"><title>tree, random: 100000, 2.69708 ms</title></circle>
+<polyline points="1048.00,928.27 1106.05,908.06 1169.67,885.25 1227.72,864.22 1291.33,841.57 1349.38,823.25 1413.00,800.48" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="1048.00" cy="928.27" r="3" fill="#1768ac"><title>tree, ascending: 100, 0.002584 ms</title></circle>
+<circle cx="1106.05" cy="908.06" r="3" fill="#1768ac"><title>tree, ascending: 300, 0.007625 ms</title></circle>
+<circle cx="1169.67" cy="885.25" r="3" fill="#1768ac"><title>tree, ascending: 1000, 0.025875 ms</title></circle>
+<circle cx="1227.72" cy="864.22" r="3" fill="#1768ac"><title>tree, ascending: 3000, 0.079792 ms</title></circle>
+<circle cx="1291.33" cy="841.57" r="3" fill="#1768ac"><title>tree, ascending: 10000, 0.268333 ms</title></circle>
+<circle cx="1349.38" cy="823.25" r="3" fill="#1768ac"><title>tree, ascending: 30000, 0.71575 ms</title></circle>
+<circle cx="1413.00" cy="800.48" r="3" fill="#1768ac"><title>tree, ascending: 100000, 2.42246 ms</title></circle>
+<polyline points="1048.00,928.27 1106.05,907.66 1169.67,885.28 1227.72,864.79 1291.33,844.01 1349.38,823.61 1413.00,800.75" fill="none" stroke="#1768ac" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="1048.00" cy="928.27" r="3" fill="#1768ac"><title>tree, descending: 100, 0.002584 ms</title></circle>
+<circle cx="1106.05" cy="907.66" r="3" fill="#1768ac"><title>tree, descending: 300, 0.007792 ms</title></circle>
+<circle cx="1169.67" cy="885.28" r="3" fill="#1768ac"><title>tree, descending: 1000, 0.025833 ms</title></circle>
+<circle cx="1227.72" cy="864.79" r="3" fill="#1768ac"><title>tree, descending: 3000, 0.077375 ms</title></circle>
+<circle cx="1291.33" cy="844.01" r="3" fill="#1768ac"><title>tree, descending: 10000, 0.235375 ms</title></circle>
+<circle cx="1349.38" cy="823.61" r="3" fill="#1768ac"><title>tree, descending: 30000, 0.70175 ms</title></circle>
+<circle cx="1413.00" cy="800.75" r="3" fill="#1768ac"><title>tree, descending: 100000, 2.38692 ms</title></circle>
+<polyline points="1048.00,962.33 1106.05,946.00 1169.67,924.97 1227.72,904.04 1291.33,881.80 1349.38,861.13 1413.00,838.38" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray=""/>
+<circle cx="1048.00" cy="962.33" r="3" fill="#c65b16"><title>array, random: 100, 0.000417 ms</title></circle>
+<circle cx="1106.05" cy="946.00" r="3" fill="#c65b16"><title>array, random: 300, 0.001 ms</title></circle>
+<circle cx="1169.67" cy="924.97" r="3" fill="#c65b16"><title>array, random: 1000, 0.003083 ms</title></circle>
+<circle cx="1227.72" cy="904.04" r="3" fill="#c65b16"><title>array, random: 3000, 0.009458 ms</title></circle>
+<circle cx="1291.33" cy="881.80" r="3" fill="#c65b16"><title>array, random: 10000, 0.031125 ms</title></circle>
+<circle cx="1349.38" cy="861.13" r="3" fill="#c65b16"><title>array, random: 30000, 0.094125 ms</title></circle>
+<circle cx="1413.00" cy="838.38" r="3" fill="#c65b16"><title>array, random: 100000, 0.318209 ms</title></circle>
+<polyline points="1048.00,962.33 1106.05,945.25 1169.67,924.72 1227.72,904.21 1291.33,881.87 1349.38,861.20 1413.00,838.65" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="8 4"/>
+<circle cx="1048.00" cy="962.33" r="3" fill="#c65b16"><title>array, ascending: 100, 0.000417 ms</title></circle>
+<circle cx="1106.05" cy="945.25" r="3" fill="#c65b16"><title>array, ascending: 300, 0.001041 ms</title></circle>
+<circle cx="1169.67" cy="924.72" r="3" fill="#c65b16"><title>array, ascending: 1000, 0.003125 ms</title></circle>
+<circle cx="1227.72" cy="904.21" r="3" fill="#c65b16"><title>array, ascending: 3000, 0.009375 ms</title></circle>
+<circle cx="1291.33" cy="881.87" r="3" fill="#c65b16"><title>array, ascending: 10000, 0.031 ms</title></circle>
+<circle cx="1349.38" cy="861.20" r="3" fill="#c65b16"><title>array, ascending: 30000, 0.093792 ms</title></circle>
+<circle cx="1413.00" cy="838.65" r="3" fill="#c65b16"><title>array, ascending: 100000, 0.313708 ms</title></circle>
+<polyline points="1048.00,962.38 1106.05,946.00 1169.67,925.22 1227.72,903.80 1291.33,882.18 1349.38,862.22 1413.00,837.71" fill="none" stroke="#c65b16" stroke-width="2" stroke-dasharray="2 4"/>
+<circle cx="1048.00" cy="962.38" r="3" fill="#c65b16"><title>array, descending: 100, 0.000416 ms</title></circle>
+<circle cx="1106.05" cy="946.00" r="3" fill="#c65b16"><title>array, descending: 300, 0.001 ms</title></circle>
+<circle cx="1169.67" cy="925.22" r="3" fill="#c65b16"><title>array, descending: 1000, 0.003042 ms</title></circle>
+<circle cx="1227.72" cy="903.80" r="3" fill="#c65b16"><title>array, descending: 3000, 0.009583 ms</title></circle>
+<circle cx="1291.33" cy="882.18" r="3" fill="#c65b16"><title>array, descending: 10000, 0.0305 ms</title></circle>
+<circle cx="1349.38" cy="862.22" r="3" fill="#c65b16"><title>array, descending: 30000, 0.088791 ms</title></circle>
+<circle cx="1413.00" cy="837.71" r="3" fill="#c65b16"><title>array, descending: 100000, 0.329833 ms</title></circle>
+<text x="1230.5" y="1032" text-anchor="middle" font-size="12">Ненулевых элементов k</text>
+<text x="1036" y="756" text-anchor="end" class="tick">мс</text>
+<text x="40" y="1100" font-size="12">Чтение нулей использует min(k, N − k) запросов; остальные пакеты — k операций или один полный проход. Нулевые времена не показаны.</text>
+</svg>

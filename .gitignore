@@ -1,0 +1,8 @@
+sparsevector_app
+/tests
+/tests_sanitized
+/benchmark
+*.o
+*.dSYM/
+__pycache__/
+.DS_Store

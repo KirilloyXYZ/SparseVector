@@ -22,7 +22,7 @@ void IEnumerable<T, K>::Traverse(TraversalOrder order, void (*action)(const K&, 
 {
     if (action == nullptr)
     {
-        throw std::invalid_argument("IEnumerable::Traverse: null action"); // не нужно
+        throw std::invalid_argument("IEnumerable::Traverse: null action");
     }
 
     std::unique_ptr<IEnumerator<T, K>> enumerator = this->GetEnumerator(order);
