@@ -6,10 +6,11 @@
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
-#include "SparseVector.hpp"
-#include "ArrayStorage.hpp"
-#include "DataGeneration.hpp"
+#include "../lab2/SparseVector.hpp"
+#include "../lab2/ArrayStorage.hpp"
+#include "../lab2/DataGeneration.hpp"
 
 struct BenchmarkData
 {
@@ -35,6 +36,18 @@ struct BenchmarkResult
     double reduce;
     long long checksum = 0;
     int fold = 0;
+};
+
+struct BenchmarkRecord
+{
+    std::size_t length;
+    std::size_t nonzero;
+    std::size_t missingQueries;
+    std::string storage;
+    DataOrder order;
+    int repeat;
+    unsigned int seed;
+    BenchmarkResult result;
 };
 
 template<typename Action>
@@ -176,18 +189,33 @@ inline void WriteBenchmarkHeader(std::ostream& output)
               "update_ms,remove_ms,map_ms,where_ms,reduce_ms,checksum,fold\n";
 }
 
-template<typename Storage>
-void WriteBenchmark(std::ostream& output, const BenchmarkData& data, const char* storage,
-                    DataOrder order, int repeat, unsigned int seed)
+inline void WriteBenchmarkRecord(std::ostream& output, const BenchmarkRecord& record)
 {
-    BenchmarkResult result = RunBenchmark<Storage>(data);
+    const BenchmarkResult& result = record.result;
     output << std::fixed << std::setprecision(6)
-           << data.length << ',' << data.entries.GetLength() << ',' << storage << ',' << GetOrderName(order) << ','
-           << repeat << ',' << seed << ',' << data.missing.GetLength() << ','
+           << record.length << ',' << record.nonzero << ',' << record.storage << ',' << GetOrderName(record.order) << ','
+           << record.repeat << ',' << record.seed << ',' << record.missingQueries << ','
            << result.build << ',' << result.bulk << ',' << result.read << ',' << result.missing << ','
            << result.update << ',' << result.remove << ',' << result.map << ',' << result.where << ','
            << result.reduce << ',' << result.checksum << ',' << result.fold << '\n';
     output.flush();
+}
+
+template<typename Storage>
+BenchmarkRecord MeasureStorage(const BenchmarkData& data, const char* storage, DataOrder order,
+                               int repeat, unsigned int seed)
+{
+    return {data.length, data.entries.GetLength(), data.missing.GetLength(), storage, order, repeat, seed,
+            RunBenchmark<Storage>(data)};
+}
+
+template<typename Storage>
+void WriteBenchmark(std::ostream& output, const BenchmarkData& data, const char* storage,
+                    DataOrder order, int repeat, unsigned int seed)
+{
+    BenchmarkRecord record = MeasureStorage<Storage>(data, storage, order, repeat, seed);
+    WriteBenchmarkRecord(output, record);
+    const BenchmarkResult& result = record.result;
     std::cout << storage << ", k=" << data.entries.GetLength() << ", " << GetOrderName(order)
               << ", повтор " << repeat << ": построение " << result.build << " мс, чтение " << result.read
               << " мс, удаление " << result.remove << " мс\n";

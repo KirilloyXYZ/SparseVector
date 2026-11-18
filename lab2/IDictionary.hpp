@@ -4,8 +4,8 @@
 #include <cstddef>
 #include <memory>
 
-#include "lab1/ArraySequence.hpp"
-#include "lab1/IEnumerator.hpp"
+#include "../lab1/ArraySequence.hpp"
+#include "../lab1/IEnumerator.hpp"
 
 template<typename K, typename T>
 class IDictionary

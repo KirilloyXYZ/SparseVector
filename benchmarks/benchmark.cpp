@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
         int repeats = argc > 2 ? static_cast<int>(ReadArgument(argv[2], 1, 15)) : 3;
         unsigned int seed = argc > 3 ? static_cast<unsigned int>(ReadArgument(
             argv[3], 0, std::numeric_limits<unsigned int>::max())) : 17;
-        std::filesystem::path path = argc > 4 ? argv[4] : "results/benchmark.csv";
+        std::filesystem::path path = argc > 4 ? argv[4] : "gui/results/benchmark.csv";
         std::size_t length = argc > 5 ? static_cast<std::size_t>(ReadArgument(argv[5], 1, 1000000000)) : 0;
         if (length != 0 && length < maximum) { throw std::invalid_argument("Length must be at least max_nonzero"); }
         if (path.has_parent_path()) { std::filesystem::create_directories(path.parent_path()); }

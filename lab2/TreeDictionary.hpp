@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 #include "IDictionary.hpp"
-#include "lab1/BinarySearchTree.hpp"
+#include "../lab1/BinarySearchTree.hpp"
 
 template<typename K, typename T>
 class TreeDictionary : public IDictionary<K, T>

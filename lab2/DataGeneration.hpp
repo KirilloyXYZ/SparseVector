@@ -7,8 +7,8 @@
 #include <stdexcept>
 #include <utility>
 
-#include "lab1/ArraySequence.hpp"
-#include "lab1/BinarySearchTree.hpp"
+#include "../lab1/ArraySequence.hpp"
+#include "../lab1/BinarySearchTree.hpp"
 
 using VectorEntry = std::pair<std::size_t, int>;
 

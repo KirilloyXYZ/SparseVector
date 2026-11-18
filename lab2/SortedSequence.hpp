@@ -7,8 +7,8 @@
 #include <utility>
 
 #include "ISortedSequence.hpp"
-#include "lab1/ArraySequence.hpp"
-#include "lab1/Comparison.hpp"
+#include "../lab1/ArraySequence.hpp"
+#include "../lab1/Comparison.hpp"
 
 template<typename T>
 class SortedSequence : public ISortedSequence<T>

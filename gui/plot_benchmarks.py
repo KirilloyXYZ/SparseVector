@@ -126,7 +126,7 @@ def draw_graphs(groups, title, x_column):
 
 def main():
     parser = argparse.ArgumentParser(description="Графики замеров без сторонних пакетов Python")
-    parser.add_argument("csv", nargs="?", default="results/benchmark.csv", type=Path)
+    parser.add_argument("csv", nargs="?", default=Path(__file__).resolve().parent / "results/benchmark.csv", type=Path)
     parser.add_argument("--x", choices=["nonzero", "length"], default="nonzero")
     args = parser.parse_args()
     try:

@@ -10,10 +10,11 @@
 #include <utility>
 #include <vector>
 
-#include "SparseVector.hpp"
-#include "ArrayStorage.hpp"
-#include "Benchmark.hpp"
-#include "VectorOperations.hpp"
+#include "../lab2/SparseVector.hpp"
+#include "../lab2/ArrayStorage.hpp"
+#include "../benchmarks/Benchmark.hpp"
+#include "../lab2/VectorOperations.hpp"
+#include "../gui/GuiData.hpp"
 
 void Check(bool condition, const char* message)
 {
@@ -644,6 +645,53 @@ void TestArithmetic()
     CheckThrows<std::overflow_error>([]() { SumValues(1, std::numeric_limits<int>::max()); });
 }
 
+void TestGuiData()
+{
+    auto dense = ParseVectorInput(5, VectorInputMode::Values, "0 +5 0 -2 0\n");
+    Check(dense.GetLength() == 2 && dense.Get(0) == VectorEntry(1, 5) && dense.Get(1) == VectorEntry(3, -2),
+          "GUI dense input preserves indices and omits zeroes");
+    auto pairs = ParseVectorInput(10, VectorInputMode::Entries, "7 4\n1 5\n7 0\n1 -3");
+    auto vector = SparseVector<int, ArrayStorage<int>>::FromEntries(10, pairs);
+    Check(vector.GetNonZeroCount() == 1 && vector.Get(1) == -3 && vector.Get(7) == 0,
+          "GUI sparse input preserves last-write semantics including zero");
+    Check(ParseVectorInput(0, VectorInputMode::Values, " \n").GetLength() == 0, "GUI empty dense input");
+    Check(ParseVectorInput(1000000000, VectorInputMode::Empty, "").GetLength() == 0, "GUI large implicit-zero vector");
+    Check(ParseInteger("-9223372036854775808") == std::numeric_limits<long long>::min(), "GUI minimum signed integer");
+    for (const char* text : {"", "+", "+-1", "--1", "1.5", "1x", "9223372036854775808"})
+    {
+        CheckThrows<std::invalid_argument>([&]() { ParseInteger(text); });
+    }
+    CheckThrows<std::invalid_argument>([]() { ParseVectorInput(2, VectorInputMode::Values, "1"); });
+    CheckThrows<std::invalid_argument>([]() { ParseVectorInput(2, VectorInputMode::Values, "1 2 3"); });
+    CheckThrows<std::invalid_argument>([]() { ParseVectorInput(10, VectorInputMode::Entries, "1"); });
+    CheckThrows<std::out_of_range>([]() { ParseVectorInput(10, VectorInputMode::Entries, "-1 7"); });
+    CheckThrows<std::out_of_range>([]() { ParseVectorInput(10, VectorInputMode::Entries, "10 7"); });
+    CheckThrows<std::out_of_range>([]() { ParseVectorInput(1, VectorInputMode::Values, "2147483648"); });
+    CheckThrows<std::invalid_argument>([]() { ParseVectorInput(10001, VectorInputMode::Values, ""); });
+    CheckThrows<std::invalid_argument>([]() { ParseVectorInput(1, static_cast<VectorInputMode>(-1), ""); });
+    Check(Median({7, 1, 3}) == 3 && Median({8, 2, 6, 4}) == 5, "GUI medians for odd and even repeat counts");
+    CheckThrows<std::invalid_argument>([]() { Median({}); });
+    Check(GetExperimentSizes(50) == std::vector<std::size_t>{50}, "GUI small benchmark maximum");
+    Check(GetExperimentSizes(300) == std::vector<std::size_t>({100, 300}), "GUI benchmark sizes have no duplicates");
+    CheckThrows<std::invalid_argument>([]() { GetExperimentSizes(0); });
+    BenchmarkResult times{};
+    times.missing = 0.25;
+    times.reduce = 0.75;
+    Check(GetBenchmarkTime(times, 3) == 0.25 && GetBenchmarkTime(times, 8) == 0.75, "GUI metric selection");
+    CheckThrows<std::out_of_range>([&]() { GetBenchmarkTime(times, 9); });
+
+    auto data = PrepareBenchmark(10, vector.GetEntries());
+    auto record = MeasureStorage<ArrayStorage<int>>(data, "array", DataOrder::Descending, 2, 17);
+    Check(record.length == 10 && record.nonzero == 1 && record.missingQueries == 1 && record.result.checksum == -3,
+          "Structured benchmark retains input and correctness metadata");
+    std::ostringstream output;
+    WriteBenchmarkRecord(output, record);
+    Check(output.str().find("10,1,array,descending,2,17,1,") == 0, "GUI and CLI share benchmark CSV format");
+    std::string csv = output.str();
+    Check(std::count(csv.begin(), csv.end(), ',') == 17 && std::count(csv.begin(), csv.end(), '\n') == 1,
+          "Benchmark CSV has exactly eighteen columns and one complete row");
+}
+
 template<typename Storage>
 void TestVector()
 {
@@ -678,7 +726,8 @@ int main()
         TestGeneration();
         TestBenchmark();
         TestArithmetic();
-        std::cout << "All tests passed (both storages, containers, exceptions and random models)\n";
+        TestGuiData();
+        std::cout << "All tests passed (both storages, containers, exceptions, random models and GUI data)\n";
         return 0;
     }
     catch (const std::exception& error)

@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <memory>
 
-#include "lab1/IEnumerator.hpp"
+#include "../lab1/IEnumerator.hpp"
 
 template<typename T>
 class ISortedSequence

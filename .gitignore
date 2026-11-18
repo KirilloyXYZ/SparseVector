@@ -1,7 +1,4 @@
-sparsevector_app
-/tests
-/tests_sanitized
-/benchmark
+/build/
 *.o
 *.dSYM/
 __pycache__/

@@ -16,14 +16,6 @@ class SparseVector
 public:
     using Entry = std::pair<std::size_t, T>;
 
-private:
-    std::size_t length;
-    Storage storage;
-
-    void CheckIndex(std::size_t index) const;
-    static bool CompareEntries(const Entry& left, const Entry& right);
-
-public:
     explicit SparseVector(std::size_t length);
     explicit SparseVector(const Sequence<T>& values);
     SparseVector(const SparseVector<T, Storage>& other) = default;
@@ -43,6 +35,13 @@ public:
     SparseVector<T, Storage> Where(bool (*predicate)(const T&)) const;
     T Reduce(T (*func)(const T&, const T&), const T& startValue) const;
     void Print(std::ostream& stream, std::size_t maxItems = 100) const;
+
+private:
+    std::size_t length;
+    Storage storage;
+
+    void CheckIndex(std::size_t index) const;
+    static bool CompareEntries(const Entry& left, const Entry& right);
 };
 
 template<typename T, typename Storage>

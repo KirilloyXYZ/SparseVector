@@ -8,7 +8,7 @@ arm64. Компилятор — Apple Clang 21.0.0. Бенчмарк собра�
 
 ```sh
 make benchmark
-./benchmark 100000 3 17 results/benchmark.csv 10000000
+./build/benchmark 100000 3 17 gui/results/benchmark.csv 10000000
 make plots
 ```
 
